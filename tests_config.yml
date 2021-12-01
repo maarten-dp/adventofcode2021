@@ -1,0 +1,7 @@
+Day01:
+- InputFile: test_input1
+  ExpectedResult: ""
+  Solver: solve1
+- InputFile: test_input2
+  ExpectedResult: ""
+  Solver: solve2
