@@ -85,15 +85,18 @@ class DayManager:
         return test_files
 
     def get_expected_test_result(self, solver_id):
-        solver = getattr(self.solver_module, f"{SOLVER_PREFIX}{solver_id}")
-        return solver.expected_test_result
+        solver = getattr(self.solver_module, f"{SOLVER_PREFIX}{solver_id}", None)
+        if solver:
+            return solver.expected_test_result
 
     @property
     def input(self):
         return File(os.path.join(self.dir, "input"))
 
     def run_solver(self, solver_id, input):
-        return getattr(self.solver_module, f"{SOLVER_PREFIX}{solver_id}")(input)
+        solver = getattr(self.solver_module, f"{SOLVER_PREFIX}{solver_id}", None)
+        if solver:
+            return solver(input)
 
 
     def run_last_solver(self, input):
