@@ -34,7 +34,6 @@ def get_value(lines, depth, key1, key2):
 @expected_test_result(230)
 def solve2(input):
     lines = [l for l in input.split('\n') if l]
-    threshold = len(lines) / 2
 
     oxygen = get_value(lines, 0, "1", "0")
     co2 = get_value(lines, 0, "0", "1")
