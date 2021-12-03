@@ -23,8 +23,8 @@ def get_value(lines, depth, key1, key2):
     if threshold < 1:
         return int(lines[0], 2)
 
-    values = [l[depth] for l in lines]
-    if sum(map(int, values)) >= threshold:
+    values = [int(l[depth]) for l in lines]
+    if sum(values) >= threshold:
         lines = [l for l in lines if l[depth] == key1]
     else:
         lines = [l for l in lines if l[depth] == key2]
