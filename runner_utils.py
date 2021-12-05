@@ -3,6 +3,7 @@ import glob
 import re
 import os
 import pathlib
+import time
 
 
 SOLVER_PREFIX = "solve"
@@ -96,11 +97,15 @@ class DayManager:
     def run_solver(self, solver_id, input):
         solver = getattr(self.solver_module, f"{SOLVER_PREFIX}{solver_id}", None)
         if solver:
-            return solver(input)
+            t1 = time.time()
+            result = solver(input)
+            print(f"{solver.__name__} ran in: {time.time() - t1: .5f}")
+            return result
 
 
     def run_last_solver(self, input):
-        return getattr(self.solver_module, self.solvers[-1])(input)
+        solver_id = self.solvers[-1][-1]
+        return self.run_solver(solver_id, input)
 
 
 class TestManager:
