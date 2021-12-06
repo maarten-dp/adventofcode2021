@@ -99,7 +99,7 @@ class DayManager:
         if solver:
             t1 = time.time()
             result = solver(input)
-            print(f"{solver.__name__} ran in: {time.time() - t1: .5f}")
+            print(f"{solver.__name__} ran in: {time.time() - t1: .5f} sec")
             return result
 
 
