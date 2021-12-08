@@ -7,13 +7,13 @@ def length_prop(length):
     return validate
 
 
-def deducted_length(key, length):
+def deduced_length(key, length):
     def validate(mapping, value):
         return len(set(value) - set(mapping[key])) == length
     return validate
 
 
-def reverse_deducted_length(key, length):
+def reverse_deduced_length(key, length):
     def validate(mapping, value):
         return len(set(mapping[key]) - set(value)) == length
     return validate
@@ -26,38 +26,38 @@ UNIQUE_PROPS = {
     8: (length_prop(7),),
 }
 
-DEDUCTED_PROPS = {
+DEDUCED_PROPS = {
     0: (
         length_prop(6),
-        reverse_deducted_length(7, 0),
-        reverse_deducted_length(4, 1),
+        reverse_deduced_length(7, 0),
+        reverse_deduced_length(4, 1),
     ),
     2: (
         length_prop(5),
-        reverse_deducted_length(7, 1),
-        reverse_deducted_length(4, 2)
+        reverse_deduced_length(7, 1),
+        reverse_deduced_length(4, 2)
     ),
     3: (
         length_prop(5),
-        deducted_length(7, 2),
-        deducted_length(4, 2),
+        deduced_length(7, 2),
+        deduced_length(4, 2),
     ),
     5: (
         length_prop(5),
-        deducted_length(7, 3),
-        deducted_length(4, 2),
-        reverse_deducted_length(7, 1),
-        reverse_deducted_length(4, 1)
+        deduced_length(7, 3),
+        deduced_length(4, 2),
+        reverse_deduced_length(7, 1),
+        reverse_deduced_length(4, 1)
     ),
     6: (
         length_prop(6),
-        deducted_length(7, 4),
-        deducted_length(4, 3),
+        deduced_length(7, 4),
+        deduced_length(4, 3),
     ),
     9: (
         length_prop(6),
-        reverse_deducted_length(7, 0),
-        reverse_deducted_length(4, 0)
+        reverse_deduced_length(7, 0),
+        reverse_deduced_length(4, 0)
     ),
 }
 
@@ -96,7 +96,7 @@ class Display:
 
     def assess(self):
         update_mapping(self.mapping, self.signals, UNIQUE_PROPS)
-        update_mapping(self.mapping, self.signals, DEDUCTED_PROPS)
+        update_mapping(self.mapping, self.signals, DEDUCED_PROPS)
         self.value_mapping = {v: k for k, v in self.mapping.items()}
 
     def get_value(self, display_number):
