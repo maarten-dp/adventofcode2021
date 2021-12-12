@@ -20,10 +20,10 @@ def get_paths(current_path, paths, end):
             continue
         new_path = current_path[:]
         new_path.append(link)
-        get_paths(new_path[:], paths, end)
+        get_paths(new_path, paths, end)
 
 
-def get_paths2(current_path, paths, end, visited_small_cave):
+def get_paths2(current_path, paths, end, visited_small_cave=None):
     node = current_path[-1]
     if len(current_path) > 1 and node is current_path[0]:
         return
@@ -41,7 +41,7 @@ def get_paths2(current_path, paths, end, visited_small_cave):
                 continue
         new_path = current_path[:]
         new_path.append(link)
-        get_paths2(new_path[:], paths, end, new_visited_small_cave)
+        get_paths2(new_path, paths, end, new_visited_small_cave)
 
 
 class Node:
@@ -58,8 +58,7 @@ class Node:
         return self.name
 
 
-@expected_test_result(226)
-def solve1(input):
+def path_finder(input, finder):
     links = [l for l in input.split("\n") if l]
     registry = {}
     for link in links:
@@ -67,18 +66,15 @@ def solve1(input):
         get_node(registry, name1).link(get_node(registry, name2))
 
     paths = []
-    get_paths([registry["start"]], paths, registry['end'])
+    finder([registry["start"]], paths, registry['end'])
     return len(paths)
+
+
+@expected_test_result(226)
+def solve1(input):
+    return path_finder(input, get_paths)
 
 
 @expected_test_result(3509)
 def solve2(input):
-    links = [l for l in input.split("\n") if l]
-    registry = {}
-    for link in links:
-        name1, name2 = link.split("-")
-        get_node(registry, name1).link(get_node(registry, name2))
-
-    paths = []
-    get_paths2([registry["start"]], paths, registry['end'], None)
-    return len(paths)
+    return path_finder(input, get_paths2)
