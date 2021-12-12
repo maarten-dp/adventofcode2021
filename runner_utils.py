@@ -4,18 +4,32 @@ import re
 import os
 import pathlib
 import time
+from aoc_session import get_session
 
 
 SOLVER_PREFIX = "solve"
 FOLDER_PREFIX = "day"
 DAY_RE = "day([0-9]{2})"
 SOLVER_RE = "solve([0-9])"
+INPUT_URL = "https://adventofcode.com/2021/day/{}/input"
 FOLDER_STRUCTURE = [
     "__init__.py",
-    "input",
     "input_test",
-    "solver.py"
 ]
+
+SOLVER_TEMPLATE = """
+from runner_utils import expected_test_result
+
+
+@expected_test_result(None)
+def solve1(input):
+    pass
+
+
+# @expected_test_result(None)
+# def solve2(input):
+#     pass
+"""
 
 
 def get_all_solvers(solver_module):
@@ -39,10 +53,15 @@ def get_folder_for_day(day):
 
 
 def create_folder_structure():
-    folder_name = get_folder_for_day(get_last_day() + 1)
+    day = get_last_day() + 1
+    folder_name = get_folder_for_day(day)
     os.mkdir(folder_name)
     for filename in FOLDER_STRUCTURE:
         pathlib.Path(os.path.join(folder_name, filename)).touch()
+    with open(os.path.join(folder_name, "solver.py"), "w") as fh:
+        fh.write(SOLVER_TEMPLATE[1:])
+    with open(os.path.join(folder_name, "input"), "w") as fh:
+        fh.write(get_session().get(INPUT_URL.format(day)).text)
 
 
 def expected_test_result(result):
