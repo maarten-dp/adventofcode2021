@@ -84,6 +84,4 @@ def solve2(input):
                     row[idx].append(value)
         rows.extend(row)
 
-
-
     return Grid(rows).find_cheapest_path()
