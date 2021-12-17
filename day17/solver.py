@@ -22,24 +22,6 @@ class Rect:
         return f"({self.sx},{self.sy}),({self.ex},{self.ey})"
 
 
-def find_highest(field):
-    initial_interval = 0
-    highest = 0
-    found_interval = 0
-    while initial_interval > field.ey:
-        y = initial_interval
-        interval = initial_interval
-        while y > field.ey:
-            if field.contains((field.sx, y)):
-                highest = min(highest, y)
-                if highest == y:
-                    found_interval = initial_interval
-            interval -= 1
-            y += interval
-        initial_interval -= 1
-    return sum(range(abs(found_interval) + 1))
-
-
 def find_valid_velocities(field):
     initial_x_velocity = 0
     while initial_x_velocity <= field.ex:
@@ -64,7 +46,7 @@ def find_valid_velocities(field):
 @expected_test_result(45)
 def solve1(input):
     field = Rect(*re.match(FIELD_REGEX, input).groups())
-    return find_highest(field)
+    return sum(range(abs(field.ey)))
 
 
 @expected_test_result(112)
